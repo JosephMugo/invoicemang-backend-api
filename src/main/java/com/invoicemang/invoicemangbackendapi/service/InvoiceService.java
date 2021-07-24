@@ -7,7 +7,6 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.UUID;
 
 // business logic
 @Service
@@ -28,7 +27,7 @@ public class InvoiceService {
     }
 
     // get invoice by id
-    public Invoice getInvoiceById(UUID id) {
+    public Invoice getInvoiceById(Integer id) {
         return invoiceRepository.findById(id).get();
     }
 
@@ -39,7 +38,7 @@ public class InvoiceService {
 
     // update invoice
     // only updatable fields are dueDate, sellerAddress, and buyerAddress
-    public Invoice updateInvoice(UUID id, Invoice updatedInvoice) {
+    public Invoice updateInvoice(Integer id, Invoice updatedInvoice) {
         Invoice invoice = invoiceRepository.findById(id).get();
         invoice.setDueDate(updatedInvoice.getDueDate());
         invoice.setSellerAddress(updatedInvoice.getSellerAddress());
@@ -48,7 +47,7 @@ public class InvoiceService {
     }
 
     // delete invoice
-    public void deleteInvoiceById(UUID id) {
+    public void deleteInvoiceById(Integer id) {
         invoiceRepository.deleteById(id);
     }
 }

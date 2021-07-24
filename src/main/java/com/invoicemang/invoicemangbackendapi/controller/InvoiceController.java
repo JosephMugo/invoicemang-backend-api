@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.UUID;
 
 @RestController
 @RequestMapping(path = "/invoices")
@@ -34,7 +33,7 @@ public class InvoiceController {
 
     // handle request to get invoice by id provided
     @GetMapping(path = "/{invoiceId}")
-    private Invoice getInvoiceById(@PathVariable UUID invoiceId) {
+    private Invoice getInvoiceById(@PathVariable Integer invoiceId) {
         return invoiceService.getInvoiceById(invoiceId);
     }
 
@@ -56,7 +55,7 @@ public class InvoiceController {
 
     // handle request to update invoice
     @PutMapping(path = "/{invoiceId}")
-    private Invoice updateInvoice(@PathVariable UUID invoiceId, @RequestBody InvoiceDTO invoiceDTO) {
+    private Invoice updateInvoice(@PathVariable Integer invoiceId, @RequestBody InvoiceDTO invoiceDTO) {
         List<Purchase> emptyPlaceholderPurchaseList = new ArrayList<>();
         // list of purchase that passed in has no affect since purchase list of invoice does not get upgraded
         Invoice invoice = invoiceDTO.convertInvoiceDtoToInvoice(emptyPlaceholderPurchaseList);
@@ -65,7 +64,7 @@ public class InvoiceController {
 
     // delete invoice
     @DeleteMapping(path = "/{invoiceId}")
-    private void deleteinvoice(@PathVariable UUID invoiceId) {
+    private void deleteinvoice(@PathVariable Integer invoiceId) {
         invoiceService.deleteInvoiceById(invoiceId);
     }
 }

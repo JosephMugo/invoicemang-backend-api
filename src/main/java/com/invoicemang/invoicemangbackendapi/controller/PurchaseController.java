@@ -20,7 +20,6 @@ public class PurchaseController {
         this.purchaseService = purchaseService;
     }
 
-
     @GetMapping
     public List<Purchase> getPurchases() {
         return purchaseService.getPurchases();
