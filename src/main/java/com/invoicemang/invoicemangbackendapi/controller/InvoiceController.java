@@ -14,6 +14,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping(path = "/invoices")
+@CrossOrigin(origins = "*")
 public class InvoiceController {
 
     private InvoiceService invoiceService;
@@ -64,7 +65,7 @@ public class InvoiceController {
 
     // delete invoice
     @DeleteMapping(path = "/{invoiceId}")
-    private void deleteinvoice(@PathVariable Integer invoiceId) {
+    private void deleteInvoice(@PathVariable Integer invoiceId) {
         invoiceService.deleteInvoiceById(invoiceId);
     }
 }
