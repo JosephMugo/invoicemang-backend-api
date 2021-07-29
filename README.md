@@ -33,7 +33,7 @@ Base URL: http://localhost:8000 (spring boot default path)
 | :---        |    :----:   |           :----:   |           :----:   |         ---: |
 | GET | /invoices | gets all invoices in database | N/A | GET /invoices | 
 | GET | /invoices/{<i>invoiceId</i>} | gets invoice by id | N/A | GET /invoices/1 |
-| POST | /invoices | post new invoice to database | {} | POST /invoices |
+| POST | /invoices | post new invoice to database | {sellerName: "", sellerAddress: "", buyerName: "", buyerAddress: "", date: "", dueDate: "", purchases: [description: "", quantity: "", costPerUnit: ""]} | POST /invoices |
 | PUT | /invoices/{<i>invoiceId</i>} | update invoice by id | {} | PUT /invoices/1 | 
 | DELETE | /invoices/{<i>invoiceId</i>} | delete invoice by id | N/A | DELETE /invoices/1 | 
 ---
