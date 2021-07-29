@@ -1,5 +1,8 @@
 # invoicemang-backend-api
 #### <i>Joseph Mugo</i>
+
+InvoiceMang is an invoice management web application that allows you to create, view, update, and delete invoices in a user-friendly dashboard. The web application ensures that you can access your invoices anytime from anywhere.
+
 ### Application Quickstart
 ---
 - setup mysql database 
