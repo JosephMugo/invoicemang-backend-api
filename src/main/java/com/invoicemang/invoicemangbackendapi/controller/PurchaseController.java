@@ -15,12 +15,8 @@ import java.util.List;
 @CrossOrigin(origins = "*")
 public class PurchaseController {
 
-    private PurchaseService purchaseService;
-
     @Autowired
-    public PurchaseController(PurchaseService purchaseService) {
-        this.purchaseService = purchaseService;
-    }
+    private PurchaseService purchaseService;
 
     @GetMapping
     public List<Purchase> getPurchases() {

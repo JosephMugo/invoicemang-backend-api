@@ -17,14 +17,11 @@ import java.util.List;
 @CrossOrigin(origins = "*")
 public class InvoiceController {
 
+    @Autowired
     private InvoiceService invoiceService;
-    private PurchaseService purchaseService;
 
     @Autowired
-    public InvoiceController(InvoiceService invoiceService, PurchaseService purchaseService) {
-        this.invoiceService = invoiceService;
-        this.purchaseService = purchaseService;
-    }
+    private PurchaseService purchaseService;
 
     // handle request to get all invoices
     @GetMapping
@@ -40,7 +37,7 @@ public class InvoiceController {
 
     // handle request to add new invoice
     @PostMapping
-    private Invoice addInvoice(@Valid  @RequestBody InvoiceDTO invoiceDTO) {
+    private Invoice addInvoice(@Valid @RequestBody InvoiceDTO invoiceDTO) {
         List<Purchase> purchaseList = new ArrayList<>();
         invoiceDTO.getPurchases().forEach(purchaseDTO -> {
             Purchase purchase = new Purchase();
