@@ -1,7 +1,7 @@
 package com.invoicemang.invoicemangbackendapi.controller;
 
 import com.invoicemang.invoicemangbackendapi.model.Purchase;
-import com.invoicemang.invoicemangbackendapi.service.PurchaseServiceImpl;
+import com.invoicemang.invoicemangbackendapi.service.PurchaseService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -16,10 +16,10 @@ import java.util.List;
 public class PurchaseController {
 
     @Autowired
-    private PurchaseServiceImpl purchaseServiceImpl;
+    private PurchaseService purchaseService;
 
     @GetMapping
     public List<Purchase> getPurchases() {
-        return purchaseServiceImpl.getPurchases();
+        return purchaseService.getPurchases();
     }
 }
