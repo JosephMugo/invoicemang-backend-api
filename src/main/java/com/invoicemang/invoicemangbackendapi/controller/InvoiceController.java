@@ -3,8 +3,8 @@ package com.invoicemang.invoicemangbackendapi.controller;
 import com.invoicemang.invoicemangbackendapi.dto.InvoiceDTO;
 import com.invoicemang.invoicemangbackendapi.model.Invoice;
 import com.invoicemang.invoicemangbackendapi.model.Purchase;
-import com.invoicemang.invoicemangbackendapi.service.InvoiceService;
-import com.invoicemang.invoicemangbackendapi.service.PurchaseService;
+import com.invoicemang.invoicemangbackendapi.service.InvoiceServiceImpl;
+import com.invoicemang.invoicemangbackendapi.service.PurchaseServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -17,30 +17,27 @@ import java.util.List;
 @CrossOrigin(origins = "*")
 public class InvoiceController {
 
-    private InvoiceService invoiceService;
-    private PurchaseService purchaseService;
+    @Autowired
+    private InvoiceServiceImpl invoiceServiceImpl;
 
     @Autowired
-    public InvoiceController(InvoiceService invoiceService, PurchaseService purchaseService) {
-        this.invoiceService = invoiceService;
-        this.purchaseService = purchaseService;
-    }
-
+    private PurchaseServiceImpl purchaseServiceImpl;
+    
     // handle request to get all invoices
     @GetMapping
     private List<Invoice> getInvoices() {
-        return invoiceService.getAllInvoices();
+        return invoiceServiceImpl.getAllInvoices();
     }
 
     // handle request to get invoice by id provided
     @GetMapping(path = "/{invoiceId}")
     private Invoice getInvoiceById(@PathVariable Integer invoiceId) {
-        return invoiceService.getInvoiceById(invoiceId);
+        return invoiceServiceImpl.getInvoiceById(invoiceId);
     }
 
     // handle request to add new invoice
     @PostMapping
-    private Invoice addInvoice(@Valid  @RequestBody InvoiceDTO invoiceDTO) {
+    private Invoice addInvoice(@Valid @RequestBody InvoiceDTO invoiceDTO) {
         List<Purchase> purchaseList = new ArrayList<>();
         invoiceDTO.getPurchases().forEach(purchaseDTO -> {
             Purchase purchase = new Purchase();
@@ -48,10 +45,10 @@ public class InvoiceController {
             purchase.setQuantity(purchaseDTO.getQuantity());
             purchase.setCostPerUnit(purchaseDTO.getCostPerUnit());
             purchaseList.add(purchase);
-            purchaseService.addPurchase(purchase);
+            purchaseServiceImpl.addPurchase(purchase);
         });
         Invoice invoice = invoiceDTO.convertInvoiceDtoToInvoice(purchaseList);
-        return invoiceService.addInvoice(invoice);
+        return invoiceServiceImpl.addInvoice(invoice);
     }
 
     // handle request to update invoice
@@ -60,12 +57,12 @@ public class InvoiceController {
         List<Purchase> emptyPlaceholderPurchaseList = new ArrayList<>();
         // list of purchase that passed in has no affect since purchase list of invoice does not get upgraded
         Invoice invoice = invoiceDTO.convertInvoiceDtoToInvoice(emptyPlaceholderPurchaseList);
-        return invoiceService.updateInvoice(invoiceId, invoice);
+        return invoiceServiceImpl.updateInvoice(invoiceId, invoice);
     }
 
     // delete invoice
     @DeleteMapping(path = "/{invoiceId}")
     private void deleteInvoice(@PathVariable Integer invoiceId) {
-        invoiceService.deleteInvoiceById(invoiceId);
+        invoiceServiceImpl.deleteInvoiceById(invoiceId);
     }
 }
