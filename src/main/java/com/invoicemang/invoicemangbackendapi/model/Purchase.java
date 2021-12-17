@@ -2,29 +2,30 @@ package com.invoicemang.invoicemangbackendapi.model;
 
 import lombok.Data;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.math.BigDecimal;
 
 @Entity
+@Table(name = "PURCHASE", uniqueConstraints = {
+        @UniqueConstraint(columnNames = "ID")
+})
 @Data
 public class Purchase {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private Integer id;
+    @Column(name = "ID", unique = true, nullable = false)
+    private Integer invoideId;
 
+    @Column(name = "DESCRIPTION")
     private String description;
+
+    @Column(name = "QUANTITY")
     private int quantity;
+
+    @Column(name = "COST_PER_UNIT")
     private BigDecimal costPerUnit;
 
-    public Purchase() {}
-
-    public Purchase(String description, int quantity, BigDecimal costPerUnit) {
-        this.description = description;
-        this.quantity = quantity;
-        this.costPerUnit = costPerUnit;
-    }
+    @ManyToOne
+    private Invoice invoice;
 }
