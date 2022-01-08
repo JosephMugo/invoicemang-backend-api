@@ -20,10 +20,11 @@ public class Invoice {
     private Date date;
     private Date dueDate;
 
-    @OneToMany
+    @OneToMany(cascade = CascadeType.ALL)
     private List<Purchase> purchases;
 
-    public Invoice() {}
+    public Invoice() {
+    }
 
     public Invoice(String sellerName, String sellerAddress, String buyerName, String buyerAddress, Date date, Date dueDate, List<Purchase> purchases) {
         this.sellerName = sellerName;
