@@ -7,36 +7,33 @@ import java.util.Date;
 import java.util.List;
 
 @Entity
-@Table(name = "Invoice", uniqueConstraints = {
-        @UniqueConstraint(columnNames = "SELLER_NAME"),
-        @UniqueConstraint(columnNames = "BUYER_NAME")
-})
 @Data
 public class Invoice {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "ID", unique = true, nullable = false)
-    private Integer invoiceId;
+    private Integer id;
 
-    @Column(name = "SELLER_NAME")
     private String sellerName;
-
-    @Column(name = "SELLER_ADDRESS")
     private String sellerAddress;
-
-    @Column(name = "BUYER_NAME")
     private String buyerName;
-
-    @Column(name = "BUYER_ADDRESS")
     private String buyerAddress;
-
-    @Column(name = "DATE")
     private Date date;
-
-    @Column(name = "DUE_DATE")
     private Date dueDate;
 
     @OneToMany(cascade = CascadeType.ALL)
-    @JoinColumn(name = "Invoice_ID")
     private List<Purchase> purchases;
+
+    public Invoice() {
+    }
+
+    public Invoice(String sellerName, String sellerAddress, String buyerName, String buyerAddress, Date date, Date dueDate, List<Purchase> purchases) {
+        this.sellerName = sellerName;
+        this.sellerAddress = sellerAddress;
+        this.buyerName = buyerName;
+        this.buyerAddress = buyerAddress;
+        this.date = date;
+        this.dueDate = dueDate;
+        this.purchases = purchases;
+    }
+
 }
