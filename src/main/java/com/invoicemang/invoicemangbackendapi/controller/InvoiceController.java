@@ -15,27 +15,28 @@ import javax.validation.Valid;
 import java.util.ArrayList;
 import java.util.List;
 
-@CrossOrigin(origins = "*")
+@CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
-@RequestMapping(path = "/invoices")
+@RequestMapping("/invoices")
 public class InvoiceController {
 
     @Autowired
-    private InvoiceService invoiceService;
+    InvoiceService invoiceService;
 
     @Autowired
-    private PurchaseService purchaseService;
+    PurchaseService purchaseService;
 
     // handle request to get all invoices
     @GetMapping
-    private List<Invoice> getInvoices() {
+    @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
+    public List<Invoice> getInvoices() {
         return invoiceService.getAllInvoices();
     }
 
     // handle request to get invoice by id provided
     @GetMapping(path = "/{invoiceId}")
     @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
-    private ResponseEntity<Invoice> getInvoiceById(@PathVariable Integer invoiceId) {
+    public ResponseEntity<Invoice> getInvoiceById(@PathVariable Integer invoiceId) {
         Invoice invoice = invoiceService.getInvoiceById(invoiceId);
         return new ResponseEntity<>(invoice, HttpStatus.OK);
     }
@@ -43,7 +44,7 @@ public class InvoiceController {
     // handle request to add new invoice
     @PostMapping
     @PreAuthorize("hasRole('ADMIN')")
-    private ResponseEntity<Invoice> addInvoice(@Valid @RequestBody InvoiceDTO invoiceDTO) {
+    public ResponseEntity<Invoice> addInvoice(@Valid @RequestBody InvoiceDTO invoiceDTO) {
         List<Purchase> purchaseList = new ArrayList<>();
         invoiceDTO.getPurchases().forEach(purchaseDTO -> {
             Purchase purchase = new Purchase();
@@ -61,7 +62,7 @@ public class InvoiceController {
     // handle request to update invoice
     @PutMapping(path = "/{invoiceId}")
     @PreAuthorize("hasRole('ADMIN')")
-    private ResponseEntity<Invoice> updateInvoice(@PathVariable Integer invoiceId, @RequestBody InvoiceDTO invoiceDTO) {
+    public ResponseEntity<Invoice> updateInvoice(@PathVariable Integer invoiceId, @RequestBody InvoiceDTO invoiceDTO) {
         List<Purchase> emptyPlaceholderPurchaseList = new ArrayList<>();
         // list of purchase that passed in has no affect since purchase list of invoice does not get upgraded
         Invoice invoice = invoiceDTO.convertInvoiceDtoToInvoice(emptyPlaceholderPurchaseList);
@@ -72,7 +73,7 @@ public class InvoiceController {
     // delete invoice
     @DeleteMapping(path = "/{invoiceId}")
     @PreAuthorize("hasRole('ADMIN')")
-    private ResponseEntity<String> deleteInvoice(@PathVariable Integer invoiceId) {
+    public ResponseEntity<String> deleteInvoice(@PathVariable Integer invoiceId) {
         invoiceService.deleteInvoiceById(invoiceId);
         return new ResponseEntity<>("Invoice deleted", HttpStatus.OK);
     }
