@@ -8,6 +8,7 @@ import com.invoicemang.invoicemangbackendapi.service.PurchaseService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -27,12 +28,14 @@ public class InvoiceController {
 
     // handle request to get all invoices
     @GetMapping
+    @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
     private List<Invoice> getInvoices() {
         return invoiceService.getAllInvoices();
     }
 
     // handle request to get invoice by id provided
     @GetMapping(path = "/{invoiceId}")
+    @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
     private ResponseEntity<Invoice> getInvoiceById(@PathVariable Integer invoiceId) {
         Invoice invoice = invoiceService.getInvoiceById(invoiceId);
         return new ResponseEntity<>(invoice, HttpStatus.OK);
@@ -40,6 +43,7 @@ public class InvoiceController {
 
     // handle request to add new invoice
     @PostMapping
+    @PreAuthorize("hasRole('ADMIN')")
     private ResponseEntity<Invoice> addInvoice(@Valid @RequestBody InvoiceDTO invoiceDTO) {
         List<Purchase> purchaseList = new ArrayList<>();
         invoiceDTO.getPurchases().forEach(purchaseDTO -> {
@@ -57,6 +61,7 @@ public class InvoiceController {
 
     // handle request to update invoice
     @PutMapping(path = "/{invoiceId}")
+    @PreAuthorize("hasRole('ADMIN')")
     private ResponseEntity<Invoice> updateInvoice(@PathVariable Integer invoiceId, @RequestBody InvoiceDTO invoiceDTO) {
         List<Purchase> emptyPlaceholderPurchaseList = new ArrayList<>();
         // list of purchase that passed in has no affect since purchase list of invoice does not get upgraded
@@ -67,6 +72,7 @@ public class InvoiceController {
 
     // delete invoice
     @DeleteMapping(path = "/{invoiceId}")
+    @PreAuthorize("hasRole('ADMIN')")
     private ResponseEntity<String> deleteInvoice(@PathVariable Integer invoiceId) {
         invoiceService.deleteInvoiceById(invoiceId);
         return new ResponseEntity<>("Invoice deleted", HttpStatus.OK);
