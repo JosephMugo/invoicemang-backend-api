@@ -15,9 +15,9 @@ import javax.validation.Valid;
 import java.util.ArrayList;
 import java.util.List;
 
+@CrossOrigin(origins = "*")
 @RestController
 @RequestMapping(path = "/invoices")
-@CrossOrigin(origins = "*")
 public class InvoiceController {
 
     @Autowired
@@ -28,7 +28,6 @@ public class InvoiceController {
 
     // handle request to get all invoices
     @GetMapping
-    @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
     private List<Invoice> getInvoices() {
         return invoiceService.getAllInvoices();
     }
