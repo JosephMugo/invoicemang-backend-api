@@ -19,10 +19,10 @@ public class SignupDTO {
     @Email
     private String email;
 
-    private Set<String> role;
-
     @NotBlank
     @Size(min = 6, max = 40)
     private String password;
+    
+    private Set<String> role;
 
 }

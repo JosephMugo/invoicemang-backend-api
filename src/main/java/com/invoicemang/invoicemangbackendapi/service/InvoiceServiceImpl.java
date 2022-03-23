@@ -13,7 +13,7 @@ import java.util.List;
 public class InvoiceServiceImpl implements InvoiceService {
 
     @Autowired
-    private InvoiceRepository invoiceRepository;
+    InvoiceRepository invoiceRepository;
 
     // get all invoices
     public List<Invoice> getAllInvoices() {

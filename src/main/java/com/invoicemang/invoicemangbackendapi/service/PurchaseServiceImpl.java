@@ -12,7 +12,7 @@ import java.util.List;
 public class PurchaseServiceImpl implements PurchaseService {
 
     @Autowired
-    private PurchaseRepository purchaseRepository;
+    PurchaseRepository purchaseRepository;
 
     public List<Purchase> getPurchases() {
         List<Purchase> purchases = new ArrayList<>();

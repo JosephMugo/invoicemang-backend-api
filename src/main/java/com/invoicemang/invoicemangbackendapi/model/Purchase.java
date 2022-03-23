@@ -15,7 +15,7 @@ public class Purchase {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "ID", unique = true, nullable = false)
-    private Integer invoideId;
+    private Integer purchaseId;
 
     @Column(name = "DESCRIPTION")
     private String description;
@@ -26,6 +26,4 @@ public class Purchase {
     @Column(name = "COST_PER_UNIT")
     private BigDecimal costPerUnit;
 
-    @ManyToOne
-    private Invoice invoice;
 }
