@@ -6,6 +6,10 @@ import javax.persistence.*;
 
 @Entity
 @Data
+@Table(uniqueConstraints = {
+        @UniqueConstraint(columnNames = "ID"),
+        @UniqueConstraint(columnNames = "name")
+})
 public class Role {
 
     @Id
