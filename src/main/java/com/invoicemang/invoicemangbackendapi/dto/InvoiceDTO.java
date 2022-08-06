@@ -37,7 +37,7 @@ public class InvoiceDTO {
 
     @NotNull
     @Size(min = 1, message = "minimum of one purchase required")
-    private List<PurchaseDTO> purchases;
+    private List<PurchaseDTO> purchases = new ArrayList<>();
 
 
     // convert invoice dto to invoice object
