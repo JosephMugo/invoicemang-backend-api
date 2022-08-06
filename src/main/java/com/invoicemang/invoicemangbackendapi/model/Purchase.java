@@ -6,16 +6,12 @@ import javax.persistence.*;
 import java.math.BigDecimal;
 
 @Entity
-@Table(name = "PURCHASE", uniqueConstraints = {
-        @UniqueConstraint(columnNames = "ID")
-})
 @Data
 public class Purchase {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "ID", unique = true, nullable = false)
-    private Integer invoideId;
+    private Integer purchaseId;
 
     @Column(name = "DESCRIPTION")
     private String description;
