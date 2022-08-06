@@ -1,5 +1,6 @@
 package com.invoicemang.invoicemangbackendapi.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 
 import javax.persistence.*;
@@ -11,6 +12,7 @@ public class Purchase {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "purchase_id")
     private Integer purchaseId;
 
     @Column(name = "DESCRIPTION")
@@ -23,5 +25,7 @@ public class Purchase {
     private BigDecimal costPerUnit;
 
     @ManyToOne
+    @JoinColumn(name = "invoice_id", nullable = false)
+    @JsonIgnore
     private Invoice invoice;
 }

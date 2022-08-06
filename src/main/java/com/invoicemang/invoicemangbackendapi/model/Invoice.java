@@ -11,6 +11,7 @@ import java.util.List;
 public class Invoice {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "invoice_id")
     private Integer id;
 
     private String sellerName;
@@ -20,7 +21,7 @@ public class Invoice {
     private Date date;
     private Date dueDate;
 
-    @OneToMany(cascade = CascadeType.ALL)
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "invoice")
     private List<Purchase> purchases;
 
     public Invoice() {

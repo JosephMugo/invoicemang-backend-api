@@ -8,6 +8,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -35,12 +36,12 @@ public class InvoiceDTO {
     private Date dueDate;
 
     @NotNull
-    @Size(min=1, message = "minimum of one purchase required")
+    @Size(min = 1, message = "minimum of one purchase required")
     private List<PurchaseDTO> purchases;
 
 
     // convert invoice dto to invoice object
-    public Invoice convertInvoiceDtoToInvoice(List<Purchase> purchaseList) {
+    public Invoice convertInvoiceDtoToInvoice() {
         Invoice invoice = new Invoice();
         invoice.setSellerName(this.sellerName);
         invoice.setSellerAddress(this.sellerAddress);
@@ -48,6 +49,16 @@ public class InvoiceDTO {
         invoice.setBuyerAddress(this.buyerAddress);
         invoice.setDate(this.date);
         invoice.setDueDate(this.dueDate);
+
+        List<Purchase> purchaseList = new ArrayList<>();
+        this.purchases.forEach(purchaseDTO -> {
+            Purchase purchase = new Purchase();
+            purchase.setDescription(purchaseDTO.getDescription());
+            purchase.setQuantity(purchaseDTO.getQuantity());
+            purchase.setCostPerUnit(purchaseDTO.getCostPerUnit());
+            purchase.setInvoice(invoice);
+            purchaseList.add(purchase);
+        });
         invoice.setPurchases(purchaseList);
         return invoice;
     }

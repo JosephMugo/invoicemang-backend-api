@@ -2,7 +2,6 @@ package com.invoicemang.invoicemangbackendapi.controller;
 
 import com.invoicemang.invoicemangbackendapi.dto.InvoiceDTO;
 import com.invoicemang.invoicemangbackendapi.model.Invoice;
-import com.invoicemang.invoicemangbackendapi.model.Purchase;
 import com.invoicemang.invoicemangbackendapi.service.InvoiceService;
 import com.invoicemang.invoicemangbackendapi.service.PurchaseService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,7 +10,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -41,16 +39,7 @@ public class InvoiceController {
     // handle request to add new invoice
     @PostMapping
     private ResponseEntity<Invoice> addInvoice(@Valid @RequestBody InvoiceDTO invoiceDTO) {
-        List<Purchase> purchaseList = new ArrayList<>();
-        invoiceDTO.getPurchases().forEach(purchaseDTO -> {
-            Purchase purchase = new Purchase();
-            purchase.setDescription(purchaseDTO.getDescription());
-            purchase.setQuantity(purchaseDTO.getQuantity());
-            purchase.setCostPerUnit(purchaseDTO.getCostPerUnit());
-            purchaseList.add(purchase);
-            purchaseService.addPurchase(purchase);
-        });
-        Invoice invoice = invoiceDTO.convertInvoiceDtoToInvoice(purchaseList);
+        Invoice invoice = invoiceDTO.convertInvoiceDtoToInvoice();
         Invoice addedInvoice = invoiceService.addInvoice(invoice);
         return new ResponseEntity<>(addedInvoice, HttpStatus.OK);
     }
@@ -58,9 +47,7 @@ public class InvoiceController {
     // handle request to update invoice
     @PutMapping(path = "/{invoiceId}")
     private ResponseEntity<Invoice> updateInvoice(@PathVariable Integer invoiceId, @RequestBody InvoiceDTO invoiceDTO) {
-        List<Purchase> emptyPlaceholderPurchaseList = new ArrayList<>();
-        // list of purchase that passed in has no affect since purchase list of invoice does not get upgraded
-        Invoice invoice = invoiceDTO.convertInvoiceDtoToInvoice(emptyPlaceholderPurchaseList);
+        Invoice invoice = invoiceDTO.convertInvoiceDtoToInvoice();
         Invoice updatedInvoice = invoiceService.updateInvoice(invoiceId, invoice);
         return new ResponseEntity<>(updatedInvoice, HttpStatus.OK);
     }
