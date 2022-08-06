@@ -27,8 +27,8 @@ public class InvoiceController {
 
     // handle request to get all invoices
     @GetMapping
-    private List<Invoice> getInvoices() {
-        return invoiceService.getAllInvoices();
+    private ResponseEntity<List<Invoice>> getInvoices() {
+        return new ResponseEntity<>(invoiceService.getAllInvoices(), HttpStatus.OK);
     }
 
     // handle request to get invoice by id provided
